@@ -2,47 +2,58 @@ var http = require('http')
 
 var fs = require('fs')
 
-function readFile(filePath, response){ 
+function readFile(filePath, res){ 
 	fs.readFile(filePath, function (error, html) {
 		//La funcion "readFile" tiene el metodo "readFile" para leer los archivos html de la pagina.
 		//Dentro de dicho metodo, podemos controlar (infimamente) el error que apareceria si no 
 		//existe la pagina. Esto tambien ocurre en caso de que todo funcionara correctamente. 
 		if (error) {
-			response.statusCode = 404
-			response.setHeader('Content-Type', 'text/html')
-			response.end('No se encontro el archivo')
+			res.statusCode = 404
+			res.setHeader('Content-Type', 'text/html')
+			res.end('No se encontro el archivo')
 		} else {
-			response.write(html)
-			response.end()
+			res.write(html)
+			res.end()
 		}
 	}) 
 }
 
-http.createServer(function (request, response) {
-	response.statusCode = 200 //Se establece nuestra respuesta con el codigo 200.
-	response.setHeader('Content-Type', 'text/html') //Se estable el header como html.
+http.createServer(function (req, res) {
+	res.statusCode = 200 //Se establece nuestra respuesta con el codigo 200.
+	res.setHeader('Content-Type', 'text/html') //Se estable el header como html.
 
-	var url = request.url
+	var url = req.url
 
 	//Estas condicionales sirven como el "manejador" de rutas de la pagina. 
 	//Si bien no es la forma mas optima de administrarlas, es un primer paso y nos sirve 
 	//para ver como son las bases de una aplicacion con node.js sin ningun tipo de frameworks o librerias.
 	if (url === '/servicios') {
 		//La funcion "readFile" se encarga de todo lo relacionado a lo que se muestre en la pagina.
-		readFile('./views/pages/servicios.html', response)  
+		readFile('./views/pages/servicios.html', res)  
 	} else if (url === '/galeria') {
-		readFile('./views/pages/galeria.html', response)
+		readFile('./views/pages/galeria.html', res)
 	} else if (url === '/sobrenosotros') {
-		readFile('./views/pages/nosotros.html', response)
+		readFile('./views/pages/nosotros.html', res)
 	} else if (url === '/nuestrahistoria') {
-		readFile('./views/pages/historia.html', response)
+		readFile('./views/pages/historia.html', res)
 	} else if (url === '/testimonios') {
-		readFile('./views/pages/testimonio.html', response)
+		readFile('./views/pages/testimonio.html', res)
 	} else if (url === '/contactenos') {
-		readFile('./views/pages/contacto.html', response)
+		readFile('./views/pages/contacto.html', res)
 	} else {
-		readFile('./views/index.html', response)
+		readFile('./views/index.html', res)
 	}
+
+	if (req.method === 'POST') {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk.toString();
+        });
+        req.on('end', () => {
+            console.log(data);
+            res.end('Data recibida');
+        });
+    }
 
 }).listen(3000, function () {
 	//El metodo "listen" nos sirve para que nuestro servidor pueda ejectuarse
