@@ -44,11 +44,15 @@ http.createServer(function (req, res) {
 		readFile('./views/index.html', res)
 	}
 
+	//Escuchamos cualquier solicitud POST
 	if (req.method === 'POST') {
+		//Variable para almacenar datos del form
         let data = '';
+		//guardamos cada chunk en la variable data (chunks son los fragmentos de data que llegan 1 por 1)
         req.on('data', chunk => {
             data += chunk.toString();
         });
+		//confirmamos que se mando correctamente la data
         req.on('end', () => {
             console.log(data);
             res.end('Data recibida');
