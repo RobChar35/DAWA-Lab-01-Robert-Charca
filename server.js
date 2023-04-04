@@ -40,6 +40,8 @@ http.createServer(function (req, res) {
 		readFile('./views/pages/testimonio.html', res)
 	} else if (url === '/contactenos') {
 		readFile('./views/pages/contacto.html', res)
+	} else if (url === '/contactenos/respuesta') {
+		readFile('./views/pages/response/response.html', res)
 	} else {
 		readFile('./views/index.html', res)
 	}
@@ -54,8 +56,9 @@ http.createServer(function (req, res) {
         });
 		//confirmamos que se mando correctamente la data
         req.on('end', () => {
-            console.log(data);
-            res.end('Data recibida');
+            console.log(data)
+			res.writeHead(302, {'Location': 'http://localhost:3000/contactenos/respuesta'});
+			res.end();
         });
     }
 
