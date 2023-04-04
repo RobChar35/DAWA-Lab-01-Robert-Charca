@@ -1,2 +1,2 @@
-# DAWA-Lab-01-Robert-Charca
-Proyecto relacionado al laboratorio 1 del curso de Desarrollo de Aplicaciones Web Avanzado. Ciclo: 2023 - 1.
+# DAWA-Lab-02-Robert-Charca-Marcelo-Llerena-Cristofer-Rodriguez
+Proyecto relacionado al laboratorio 2 del curso de Desarrollo de Aplicaciones Web Avanzado. Ciclo: 2023 - 1.
